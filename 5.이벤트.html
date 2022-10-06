@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<style>
+    div{
+        border:2px solid pink;
+        color:black;
+    }
+    #hal{
+        width:300px;
+        height:300px;
+    }
+    #mom{
+        position: relative;
+        left: 50px;
+        top: 50px;
+        width:200px;
+        height:200px;
+    }
+    #na{
+        position: relative;
+        left: 50px;
+        top: 50px;
+        width:100px;
+        height:100px;
+    }
+
+</style>
+<body>
+    <div id="hal" onclick="f_hal()"> 할머님
+        <div id="mom" onclick="f_mom()">어머님
+            <div id="na" onclick="f_na()">건영건설</div>
+        </div>
+    </div>
+    <a href="//naver.com" onclick="f_yumi()">유미누님</a>
+<script>
+    function f_yumi(){
+        event.preventDefault(); // 기본 장착된 기능 막기
+        alert("유미누님은 사실 안잤다???!");
+    }
+
+    // 이벤트 버블링(자식의 이벤트가 부모, 부모의 부모에게 계속 전달 됨)
+    function f_na(){
+        event.stopPropagation(); // 이벤트 전이 방지. 이게 없으면 건영이형 클릭 시 어머님 할머님도 이벤트가 발생되었음.(이 상태를 이벤트 캡처링이라 부름)
+        alert("건영이형!")
+    }
+    function f_mom(){
+        alert("건영 어머님")
+    }
+    function f_hal(){
+        alert("건영 할머님")
+    }
+</script>
+</body>

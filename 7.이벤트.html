@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+    #myDiv {
+        width:200px;
+        height:200px;
+        border:1px solid blue;
+        text-align: center;
+        padding: 20px;
+    }
+
+</style>
+</head>
+<body>
+    <div id="myDiv">
+        <input type="button" value="값이 을에게 가! 을" id="eBtn" >
+    </div>
+    
+
+<script>
+    // target과 currentTarget을 구분해서 사용하자.
+    var v_myDiv = document.querySelector("#myDiv");
+    v_myDiv.onclick = function(e) {
+        //console.log(event.target); // 이벤트를 발생시킨 애가 얘예요!
+        console.log(e.target);       // 바뀜        실행시켜보면 안다.
+        console.log(e.currentTarget);  // 안바뀜    실행시켜보면 안다.
+        console.log("=================");
+    }
+</script>
+</body>
+</html>

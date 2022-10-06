@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<input type="button" value="누를깡" id="jrBtn">
+<script>
+    var v_jrBtn = document.querySelector("#jrBtn");
+
+    function f_check(p_arg){
+        console.log(this); // 심심하니 this값 확인
+        alert("너머온 매개변수값은 " + p_arg);
+    }
+
+    //v_jrBtn.addEventListener("click",f_check); // f_check()가 안되는 이유는 괄호가 붙으면 클릭 시 이벤트발생이 아니라 바로 이벤트가 발생함.
+    // 하지만 f_check()를 꼭 써야한다면 .bind를 이용하면 된다.   bind는 엄청나게 유용하다.
+    // bind는 내부적으로 해당함수를 복사해서 만들어 해당 함수포인터를 리턴해줌.
+    // call,apply 중에 1개 + bind 꼭 기억하고, 차이도 알아둘 것
+    v_jrBtn.addEventListener("click",f_check.bind({"name":"동석이형"},"메롱"));
+
+</script>
