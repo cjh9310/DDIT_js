@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+<div id="disp"></div>
+
+<script>
+    var jikwons = [
+        {name:"로제", code:"P100"},
+        {name:"리사", code:"P200"},
+        {name:"제니", code:"P200"},
+        {name:"뷔", code:"P300"},
+        {name:"제이홉", code:"P200"},
+        {name:"정국", code:"P400"},
+        {name:"지민", code:"P100"},
+    ];
+
+    var positions = {
+        "P100":"사장",
+        "P200":"전무",
+        "P300":"상무",
+        "P400":"사원",
+    }
+
+
+    var v_tblStr = "<table border=1>";  // table은 문자열 더하기를 많이 이용함
+    v_tblStr += "<tr><th>순번</th><th>이름</th><th>직위</th></tr>";
+    for(var i=0; i<jikwons.length; i++){
+        v_tblStr += "<tr>";
+        v_tblStr += "<td>" + (i+1) + "</td>";
+        v_tblStr += "<td>" + jikwons[i].name + "</td>";
+        v_tblStr += "<td>" + positions[jikwons[i].code] + "</td>";
+        v_tblStr += "</tr>";
+    }
+    v_tblStr += "</table>";
+    document.querySelector("#disp").innerHTML = v_tblStr;
+
+    // 위 2개의 데이터를 가지고 아래와 같은 형식의 테이블을 id=disp에 출력하시오
+    // 순번  이름  직무
+    //   1   로제  사장
+    //   2   제니  전무
+
+
+
+</script>
+</body>

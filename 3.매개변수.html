@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset='utf-8'>
+<script>
+    // function에 대해
+    function f_gy(){
+        // alert("난 좋아")
+        // return "리턴";    // 함수 끝에 return이 생략되어 있음 
+        return function(){
+            return "헉 헷갈려...!";
+        }
+    }
+    alert(f_gy()()); //?   위에 return function에서 return값만 출력시키려면 ()를 두 번 써야한다. => function을 두 번 실행시키는 것.
+    
+    
+    
+    
+    
+    // -----------------------------------------------------------------
+    //스크립트는 매개변수(parameter)로 뭐든 넘길 수 있음
+    // 콜백함수 자체는 비동기/동기와 아무 관련이 없음
+
+    function f_merong(p_arg1){
+        alert(p_arg1());     //함수 포인터(FP)   // "나다" 다음에 undifined가 뜬다.
+    }
+
+
+/*  
+    p_arg1 = function(){
+        alert("나다");
+    }
+*/
+
+    f_merong(function(){
+        alert("나다");
+    })
+
+/*
+    f_merong("메롱");
+    f_merong(272);
+    f_merong([1,2,3]);
+    f_merong({
+        name:"이혜림"
+    })
+    f_merong(function(){
+        alert("나다");
+    })
+*/
+</script>
