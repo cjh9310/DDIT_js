@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    /*
+    var str1 = "100"; //string
+    var str2 = 200; //number
+    alert(str1 + str2); // 값 100200      문자열 더하기가 존재하고 문자열 더하기가 우선시 되어서 숫자와 문자가 더해짐
+    alert(str2 - str1); // 값 100         문자열 빼기는 존재하지 않으므로 문자열이 숫자로 바뀌어 값이 계산된다.
+    // 자바스크립트 배열에서 중요한 메소드
+    // sort, splices
+    */
+
+    /*
+    var testArr = ["미정","태훈","형주","재혁"];
+    console.log(testArr);
+
+    alert(parseInt("미정"));
+
+    testArr.sort(function(a,b){
+        console.log(a," ",b);
+        if(a < b){
+            return 1;
+        }
+        return -1;
+    });
+    console.log(testArr);
+    */
+
+   // 반전 테스트 문제
+   var testArr2 = [
+        {name:"로제" ,age:26 , song:"Gone"},
+        {name:"제니" ,age:27 , song:"Sole"},
+        {name:"리사" ,age:26 , song:"I Don't Know"},
+        {name:"수빈" ,age:23 , song:"ShutDown"},
+   ];
+
+   // testArr2를 age를 기준으로 정렬하시오 
+   testArr2.sort(function(a,b){ 
+        return a.age - b.age;   // a,b는 배열요소(여기선 json객체)
+
+   });
+   console.log(testArr2);
+
+   // name 순으로 정렬하려면
+   testArr2.sort(function(p_a,p_b){
+    if(p_a.name > p_b.name){
+        return 1;
+    }
+    return -1;
+    });
+    console.log(testArr2);
+</script>
