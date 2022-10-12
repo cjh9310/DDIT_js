@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <div>심재린</div>
+    <div class="merong">김민수</div>
+    <div>조정현</div>
+    <div class="merong">윤재열</div>
+    <input type="text" name="nm_txt" id="id_txt1" value="성겸김">
+    <input type="text" name="nm_txt" id="id_txt2" value="민혁기">
+    <input type="text" name="nm_txt" id="id_txt3" value="동석곽">
+</body>
+<script>
+    //jQuery는 사방에 for문이 널려있음 => 전기를 잘 빨아먹음(모바일에서 단점이 부곽됨)
+
+
+
+    // [] 배열식 접근법을 요즘은 모르면 좌절..
+    //var attr="name";
+    //alert(document.querySelector("#id_txt").attr); // ?
+
+    var v_txt = document.querySelector("#id_txt");
+    //$v_text.html(); 
+
+    var aa = !0; // 이렇게 true를 표현 4자 -> 2자로 용량 줄이기 uglyfy(못생기게 하다)
+    //json과 callback이 이해된다면 jQuery($)를 간단하게 만들어 볼 수 있음
+    // 즉각실행함수
+    var $; //전역변수 선언
+(function(){
+    var $ = function(p_selector){
+        return new Hr(p_selector);    // 여기서 생성하고 돌려줌
+    }
+
+    var Hr = function(p_selector){
+        this.prev = p_selector; // 넘어온 선택자를 저장해둠(선택자만)
+        var elems = document.querySelectorAll(p_selector);
+        // 선택된 것들을 생성되는 객체의 속성으로 옮겨담기, 그래야 가지고 다니니깐.
+        this.length = elems.length;
+        for(var i=0; i<this.length; i++) {
+            this[i] = elems[i];
+        }
+        return this; // 명시적 표현 (이 function은 생성자로 사용되고 있음)
+    }
+    // HR.prototype.메소드명 = function(){}; 오늘은 요기까지 했음
+
+    window.$=$; //전역변수 테크닉 활용 전역과 지역을 참조로 연결
+    $.fn = Hr.prototype; // 전역변수 $의 fn 속성명으로 Hr.prototype에 접근할 수 있음
+})();
+
+// JQuery에서 이렇게 메소드를 추가하는 것을 Plugin을 개발한다고 과장해서 부름
+$.fn.eq = function(p_index){
+    this[0] = this[p_index]; //선택된 걸 0번으로 옮기고
+
+    for(var i=1; i<this.length; i++){ // 나머지는 지워버림
+        delete this[i];
+    }
+    this.length =1;
+    return this[p_index];
+}
+
+
+
+
+$.fn.on = function(p_eventName,p_cb){
+    for(var i=0; i<this.length; i++){
+        this[i].addEventListener(p_eventName,p_cb);
+    }
+    return this; // 메소드 체이닝
+}
+
+$("div").on("click",function(){
+    alert(this.innerHTML);
+})
+
+// 읽기, 전부쓰기, 일부쓰기 (보통 요따위 패턴으로 구성)
+$.fn.html = function(p_arg){  // innerHTML 속성을 편하게 다루는 메소드
+    if(!p_arg){  // 매개변수가 값이 넘어오지 않았을 때
+        return this[0].innerHTML;   // 읽기는 무조건 첫번째 요소(element)의 값
+    }
+
+    if(typeof(p_arg) == "string"){  // 매개변수로 문자열이 넘어 왔을 때
+        for(var i=0; i<this.length; i++){
+            this[i].innerHTML = p_arg;      
+        }
+        return this;  // 요것만 이쓰면 메소드 체인닝이 구성됨 
+    }
+
+    //jQuery의 콜백부분은 거의 대부분 요따구로 되어 있음(Good Idea but Performance problem)
+    if(typeof(p_arg) == "function"){
+        for(var i=0; i<this.length; i++){
+           this[i].innerHTML = p_arg.call(this[i],i,this[i].innerHTML); // 인덱스와 원래가지고 있는 innerHTML을 넘김
+        }
+        return this;   // 메소드 체인닝을 위함
+    }
+
+}
+
+// html 만들기
+$("div").html(function(p_index,p_html){
+    //console.log("elem",this);
+    if(p_index == 0){
+        this.style.fontSize="1em"; // 글자크기 5배
+    }
+    return p_html; // 나머지는 그대로 출력
+    // alert(p_index + " : " + p_html); //확인하면 인덱스값 + 모든이름들
+}).html(function(p_index,p_html){
+    if(this.innerHTML == "조정현"){
+        return "<h1>" + p_html + "</h1>";
+    }
+    return p_html;
+})
+$("div").html(function(p_index,p_html){
+    //console.log("elem",this);   // 아두 뚱요!
+    // 질문 : this값을 내 마음대로 컨트롤 하는 것은? call,apply,bind
+    if(p_index == 0){
+        this.style.fontSize="5em";  //  글자크기를 5배롱
+        return "어쩌구 저쩌궁 심재린";// 콜백함수는 return값이 존재함
+    }
+    return p_html;  // 원래 꺼 그대로 리턴
+    //alert(p_index + " : " + p_html); // 누느로 화긴
+}).html(function(p_index,p_html){
+    if(this.innerHTML == "조정현"){
+        return "<h1>" + p_html + "</h1>";
+    }
+    return p_html;  
+})
+
+
+
+$fn.attr = function(p_attr, p_opt){
+    if(typeof(p_attr)=="string" && typeof(p_opt)=="undefined"){
+        return this[0][p_attr];//? 옳슴미깡?
+    }
+    //  || 하고 &&  잘 쓰는 법
+    //읽기
+    if(typeof(p_attr)=="string" && p_opt){
+        return this[0][p_attr];//? 옳슴미깡?
+    }
+    //매개변수가 두 개가 넘어올 때
+    // 전부쓰기
+    if(typeof(p_attr) == "string" && typeof(p_opt)=="string"){
+        for(var i=0; i<this.length; i++) {
+            this[i][p_attr] = p_opt;
+        }
+        return this; // 메소드 체이닝
+    }
+    // 골라서 (조건부) 쓰기
+    if(typeof(p_attr) == "string" && type(p_opt) == "function"){
+        for(var i=0; i<this.length; i++) {
+            console.log("chk:",p_opt.call(this[i],i,this[i][p_attr]));
+            this[i][p_attr] = p_opt.call(this[i],i,this[i][p_attr]);
+        }
+        return this; // 메소드 체이닝
+    }
+}
+// 전부 쓰기
+$("input").attr("type",function(p_index,p_val){
+    if(p_index == 1){
+        return "checkbox";
+    }
+    return p_val; // 원래대로
+})
+
+console.log($("div").eq(1).html());
+
+/*
+var merong = $("input"); 
+//jQuery사용 시 2번이상 사용되는 jQuery객체(요소를 가지는 컨테이너)는 변수로 받는다.
+// 요즘은 javascript와 jQuery를 섞어서 씀
+// Dom Element(요소)를 $()를 묶어주면 바로 jQuery객체로 사용할 수 있음.
+
+//jQuery는 사양길에 접어 들었음. 프론트 프레임워크(vanila, vue, react, angular)
+
+alert(merong.attr("type"));
+alert(merong.attr("id"));
+alert(merong.attr("value"));
+alert(merong.attr("name"));
+
+*/
+
+//2
+/*
+// 여기서 jQuery 필수 메소드를 html,attr,val
+alert($("div").html());
+alert($(".merong").html());
+//$(".merong").html("동석");
+$(".merong").html("동석").html("<h1>금규가 다시 덮어씀<h1>");
+*/
+
+//1
+    /* //var v_divs = new Hr("div");
+    var v_divs = $Hr("div").eq(1);  
+    console.log(v_divs);
+    //console.log($(".merong"));
+    */
+</script>
